@@ -87,6 +87,7 @@ class DivisiController extends Controller
         $division = Divisi::findOrFail($id);
         $division->update($request->all());
         $this->res['data'] = $division;
+        $this->res['message'] = "Berhasil mengubah data.";
 
         return response()->json($this->res);
     }
