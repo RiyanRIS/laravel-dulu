@@ -34,9 +34,7 @@ class Surat extends Model
 
     public function updateFile($surat, $request)
     {
-        if ($surat->file_path) {
-            Storage::disk('surat')->delete($surat->file_path);
-        }
+        $this->deleteFile($surat);
 
         $file = $request->file('file');
         $filePath = $file->store('surat', 'surat');
@@ -44,4 +42,10 @@ class Surat extends Model
         $surat->save();
     }
 
+    public function deleteFile($surat)
+    {
+        if ($surat->file_path) {
+            Storage::disk('surat')->delete($surat->file_path);
+        }
+    }
 }

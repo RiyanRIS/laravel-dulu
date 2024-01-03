@@ -1,22 +1,18 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\DivisiController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\SuratController;
+  
+Route::get('/', [AuthController::class, 'index']);
+Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
+Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+Route::get('users', [AuthController::class, 'users'])->middleware('auth:sanctum');
 
-Route::get('/', function(){
-    return response()->json(
-        array(
-            'status' => true,
-            'message' => 'Selamat Datang!',
-            'data' => ''
-        )
-    );
-});
-
-Route::resource('divisi', DivisiController::class);
-Route::resource('pegawai', PegawaiController::class);
-Route::resource('surat', SuratController::class);
+Route::resource('divisi', DivisiController::class)->except(['edit', 'create'])->middleware('auth:sanctum');
+Route::resource('pegawai', PegawaiController::class)->except(['edit', 'create'])->middleware('auth:sanctum');
+Route::resource('surat', SuratController::class)->except(['edit', 'create'])->middleware('auth:sanctum');

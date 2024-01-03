@@ -8,20 +8,14 @@ use Illuminate\Validation\Rule;
 
 class SuratController extends Controller
 {
-    private $res = [
-        'status' => true,
-        'message' => 'Berhasil!',
-        'data' => '',
-    ];
-
     public function index()
     {
         $surat = Surat::with(['pengirim', 'penerima'])->get();
-        $surat->file_url = $surat->getFileUrl();
 
-        $this->res['data'] = $surat;
-
-        return response()->json($this->res);
+        return response()->json([
+            'message' => trans('surat.success_fetch'),
+            'data' => $surat
+        ]);
     }
 
     public function store(Request $request)
@@ -48,24 +42,24 @@ class SuratController extends Controller
             $surat->saveFile($request->file('file'));
         }
 
-        $this->res['data'] = $surat;
-
-        return response()->json($this->res, 201);
+        return response()->json([
+            'message' => trans('surat.created'),
+            'data' => $surat
+        ], 201);
     }
 
     public function show($id)
     {
         $surat = Surat::with(['pengirim', 'penerima'])->findOrFail($id);
 
-        $this->res['data'] = $surat;
-
-        return response()->json($this->res);
+        return response()->json([
+            'message' => trans('surat.success_fetched'),
+            'data' => $surat
+        ]);
     }
 
     public function update(Request $request, $id)
     {
-        print_r($request->all()); die();
-        
         $request->validate([
             'nomor_surat' => 'required|string',
             'tanggal_kirim' => 'required|date',
@@ -90,16 +84,22 @@ class SuratController extends Controller
             $surat->updateFile($surat, $request);
         }
 
-        $this->res['data'] = $surat;
-
-        return response()->json($this->res);
+        return response()->json([
+            'message' => trans('surat.updated'),
+            'data' => $surat
+        ]);
     }
-
 
     public function destroy($id)
     {
-        Surat::destroy($id);
+        $surat = Surat::findOrFail($id);
 
-        return response()->json($this->res, 204);
+        $surat->deleteFile($surat);
+        $surat->delete();
+
+        return response()->json([
+            'message' => trans('surat.deleted'),
+            'data' => $surat
+        ]);
     }
 }

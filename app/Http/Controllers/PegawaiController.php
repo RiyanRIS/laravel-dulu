@@ -6,35 +6,24 @@ use Illuminate\Http\Request;
 use App\Models\Pegawai;
 use Illuminate\Validation\Rule;
 
+/**
+ * Class Pegawai
+ * 
+ * protected $fillable = ['nama_pegawai', 'jabatan', 'id_divisi'];
+ * by riyanris, 03 jan 2024
+ */
 class PegawaiController extends Controller
 {
-   
-
-    private $res = array(
-        'status' => true,
-        'message' => 'Berhasil!',
-        'data' => ''
-    );
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $employees = Pegawai::with('divisi')->get();
-        $this->res['data'] = $employees;
 
-        return response()->json($this->res);
+        return response()->json([
+            'message' => trans('employee.success_fetch'),
+            'data' => $employees
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -46,36 +35,23 @@ class PegawaiController extends Controller
             ]
         ]);
 
-        return response()->json($request, 201);
-        die();
-
-
         $employee = Pegawai::create($request->all());
-        $this->res['data'] = $employee;
 
-        return response()->json($this->res, 201);
+        return response()->json([
+            'message' => trans('employee.created'),
+            'data' => $employee
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $employee = Pegawai::with('divisi')->findOrFail($id);
-        $this->res['data'] = $employee;
-        return response()->json($this->res);
+        return response()->json([
+            'message' => trans('employee.success_fetch'),
+            'data' => $employee
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -89,20 +65,21 @@ class PegawaiController extends Controller
 
         $employee = Pegawai::findOrFail($id);
         $employee->update($request->all());
-        $this->res['data'] = $employee;
 
-        return response()->json($this->res);
+        return response()->json([
+            'message' => trans('employee.updated'),
+            'data' => $employee
+        ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        Pegawai::destroy($id);
-        return response()->json($this->res, 204);
+        $division = Pegawai::findOrFail($id);
+
+        $division->delete();
+        
+        return response()->json([
+            'message' => trans('employee.deleted'),
+        ]);
     }
 }
