@@ -4,34 +4,46 @@ Studi kasus aplikasi surat menyurat
 
 ### Langkah Instalasi
 
-- Update composernya dulu
+-   Update composernya dulu
+
 ```bash
 composer update
 ```
 
-- Copy env
+-   Copy env
+
 ```bash
 cp .env.example .env
 ```
 
-- Buat database dan atur file `.env` nya
+-   Generate key
 
-- Migrasi database
+```bash
+php artisan key:generate
+```
+
+-   Buat database dan atur file `.env` nya
+
+-   Migrasi database
+
 ```bash
 php artisan migrate
 ```
 
-- Seeding data awal (data divisi dan pegawai)
+-   Seeding data awal (data divisi dan pegawai)
+
 ```bash
 php artisan db:seed
 ```
 
-- Buat simbolik link
+-   Buat simbolik link
+
 ```bash
 php artisan storage:link
 ```
 
-- Jalankan server
+-   Jalankan server
+
 ```bash
 php artisan serve
 ```
