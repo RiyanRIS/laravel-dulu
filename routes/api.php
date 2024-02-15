@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\DivisiController;
 use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SuratController;
   
 Route::get('/', [AuthController::class, 'index']);
@@ -16,3 +17,4 @@ Route::get('users', [AuthController::class, 'users'])->middleware('auth:sanctum'
 Route::resource('divisi', DivisiController::class)->except(['edit', 'create'])->middleware('auth:sanctum');
 Route::resource('pegawai', PegawaiController::class)->except(['edit', 'create'])->middleware('auth:sanctum');
 Route::resource('surat', SuratController::class)->except(['edit', 'create'])->middleware('auth:sanctum');
+Route::resource('student', StudentController::class)->except(['edit', 'create']);

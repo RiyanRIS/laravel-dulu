@@ -36,4 +36,10 @@ php artisan storage:link
 php artisan serve
 ```
 
+#### Yang saya pelajari
+- php artisan make:migration create_student_table
+- php artisan migrate
+- php artisan make:model Student
+- php artisan make:controller StudentController
+
 guru saya: [chat gpt](https://chat.openai.com/c/aa5afd2b-c407-4277-b270-50563c332145)
