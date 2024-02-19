@@ -53,5 +53,11 @@ php artisan serve
 - php artisan migrate
 - php artisan make:model Student
 - php artisan make:controller StudentController
+- php artisan make:seeder StudentSeeder
+- php artisan db:seed --class StudentSeeder
+
+#### Noted
+- setelah make:seeder, jangan lupa untuk call di database/seeders/DatabaseSeeder.php atau gunakan --class StudentSeeder.
+
 
 guru saya: [chat gpt](https://chat.openai.com/c/aa5afd2b-c407-4277-b270-50563c332145)
